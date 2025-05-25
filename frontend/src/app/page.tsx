@@ -22,8 +22,16 @@ const Home = () => {
     setTodos(data);
   };
 
-  const handleToggleCompleted = (todo: Todo) => {
-    setIsCompleted(!isCompleted);
+  const handleToggleCompleted = async (todo: Todo) => {
+    await fetch(`http://localhost:8080/todos/${todo.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: todo.title,
+        iscompleted: !todo.iscompleted,
+      }),
+    });
+    fetchTodos();
   };
 
   return (
@@ -42,7 +50,7 @@ const Home = () => {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                checked={isCompleted}
+                checked={todo.iscompleted}
                 onChange={() => handleToggleCompleted(todo)}
                 className="w-5 h-5 mr-4 accent-green-600"
               />

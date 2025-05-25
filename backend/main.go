@@ -15,7 +15,10 @@ func main() {
 	allowOrigins := []string{"http://localhost:3000"}
 	router.Use(middleware.CorsMiddleware(allowOrigins))
 
+	router.POST("/totos", controllers.CreateTodos)
 	router.GET("/todos", controllers.GetTodos)
+	router.PUT("/todos/:id", controllers.UpdateTodos)
+	router.DELETE("/todos/:id", controllers.DeleteTodos)
 
 	router.Run()
 }
