@@ -11,7 +11,7 @@ import (
 
 func CreateTodos(c *gin.Context) {
 	var todo models.Todo
-	if err := c.ShouldBind(&todo); err != nil {
+	if err := c.ShouldBindJSON(&todo); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -40,7 +40,7 @@ func UpdateTodos(c *gin.Context) {
 	}
 
 	var input models.Todo
-	if err := c.ShouldBind(&input); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": err.Error()})
 		return
 	}

@@ -11,7 +11,7 @@ type Todo = {
 
 const Home = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
 
   useEffect(() => {
     fetchTodos();
@@ -34,6 +34,19 @@ const Home = () => {
     });
     fetchTodos();
   };
+
+  const handleAddTodo = async () => {
+    await fetch(`http://localhost:8080/todos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: newTitle,
+        iscompleted: false,
+      }),
+    });
+    setNewTitle("");
+    fetchTodos();
+  };
   return (
     <>
       <div className="m-5">
@@ -43,6 +56,22 @@ const Home = () => {
         <h1 className="text-2xl font-semibold text-center mb-6">
           📋 Todo List
         </h1>
+
+        <div className="flex items-center gap-2 mb-6">
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="新しいTodoを入力してください"
+            className="flex p-2 rounded bg-gray-700 placeholder-gray-400"
+          />
+          <button
+            onClick={handleAddTodo}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+          >
+            追加
+          </button>
+        </div>
 
         {/* Todo一覧 */}
         <ul className="space-y-4">
