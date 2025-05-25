@@ -1,8 +1,9 @@
 package main
 
 import (
+	"backend/controllers"
 	"backend/db"
-	"net/http"
+	"backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,11 +12,10 @@ func main() {
 	router := gin.Default()
 	db.ConnectDB()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"ping": "pong",
-		})
-	})
+	allowOrigins := []string{"http://localhost:3000"}
+	router.Use(middleware.CorsMiddleware(allowOrigins))
+
+	router.GET("/todos", controllers.GetTodos)
 
 	router.Run()
 }

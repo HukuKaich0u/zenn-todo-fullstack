@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${notosansJP.variable} antialiased`}>{children}</body>
+      <body className={`${notosansJP.variable} bg-black`}>{children}</body>
     </html>
   );
 }
