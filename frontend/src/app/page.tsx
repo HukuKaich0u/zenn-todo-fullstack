@@ -35,7 +35,7 @@ const Home = () => {
   };
 
   const handleAddTodo = async () => {
-    await fetch(`http://localhost:8080/todos`, {
+    await fetch("http://localhost:8080/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -46,6 +46,14 @@ const Home = () => {
     setNewTitle("");
     fetchTodos();
   };
+
+  const handleDeleteTodo = async (todo: Todo) => {
+    await fetch(`http://localhost:8080/todos/${todo.ID}`, {
+      method: "DELETE",
+    });
+    fetchTodos();
+  };
+
   return (
     <>
       <div className="m-5">
@@ -56,17 +64,17 @@ const Home = () => {
           📋 Todo List
         </h1>
 
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex justify-between items-center gap-2 mb-6">
           <input
             type="text"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
             placeholder="新しいTodoを入力してください"
-            className="flex p-2 rounded bg-gray-700 placeholder-gray-400"
+            className="flex w-full p-2 rounded bg-gray-700 placeholder-gray-400"
           />
           <button
             onClick={handleAddTodo}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+            className="bg-blue-500 text-nowrap text-white px-4 py-2 rounded hover:bg-blue-600 transition"
           >
             追加
           </button>
@@ -90,6 +98,7 @@ const Home = () => {
                   {todo.title}
                 </span>
               </div>
+              <button onClick={() => handleDeleteTodo(todo)}>削除</button>
             </li>
           ))}
         </ul>

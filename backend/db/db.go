@@ -39,10 +39,10 @@ func ConnectDB() {
 		log.Fatalf("データベース接続に失敗: %v\n", err)
 		return
 	}
+	log.Println("データベース接続に成功")
 
 	db.AutoMigrate(&models.Todo{})
-
-	log.Println("データベース接続に成功")
+	log.Println("マイグレーションに成功")
 
 	DB = db
 

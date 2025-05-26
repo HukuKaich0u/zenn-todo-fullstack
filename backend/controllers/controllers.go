@@ -10,10 +10,15 @@ import (
 )
 
 func CreateTodos(c *gin.Context) {
-	var todo models.Todo
-	if err := c.ShouldBindJSON(&todo); err != nil {
+	var input models.Input
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	todo := models.Todo{
+		Title:       input.Title,
+		IsCompleted: input.IsCompleted,
 	}
 
 	if err := db.DB.Create(&todo).Error; err != nil {
@@ -68,6 +73,10 @@ func DeleteTodos(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	db.DB.Delete(&todo)
+
+	if err := db.DB.Delete(&todo).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "Todo deleted"})
 }
