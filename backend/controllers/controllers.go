@@ -23,6 +23,7 @@ func CreateTodos(c *gin.Context) {
 
 	if err := db.DB.Create(&todo).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(http.StatusCreated, todo)
 }
