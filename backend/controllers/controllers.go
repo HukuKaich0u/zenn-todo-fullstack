@@ -15,8 +15,11 @@ func CreateTodos(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	db.DB.Create(&todo)
-	c.JSON(http.StatusOK, todo)
+
+	if err := db.DB.Create(&todo).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+	c.JSON(http.StatusCreated, todo)
 }
 
 func GetTodos(c *gin.Context) {
@@ -41,14 +44,15 @@ func UpdateTodos(c *gin.Context) {
 
 	var input models.Todo
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"erro": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	todo.Title = input.Title
 	todo.IsCompleted = input.IsCompleted
-	db.DB.Save(&todo)
-	c.JSON(http.StatusOK, gin.H{"message": "Todo updated"})
+	if err := db.DB.Save(&todo).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+	c.JSON(http.StatusOK, todo)
 }
 
 func DeleteTodos(c *gin.Context) {

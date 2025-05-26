@@ -4,7 +4,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { useState, useEffect } from "react";
 
 type Todo = {
-  id: number;
+  ID: number;
   title: string;
   iscompleted: boolean;
 };
@@ -24,11 +24,10 @@ const Home = () => {
   };
 
   const handleToggleCompleted = async (todo: Todo) => {
-    await fetch(`http://localhost:8080/todos/${todo.id}`, {
+    await fetch(`http://localhost:8080/todos/${todo.ID}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: todo.title,
         iscompleted: !todo.iscompleted,
       }),
     });
@@ -77,7 +76,7 @@ const Home = () => {
         <ul className="space-y-4">
           {todos.map((todo) => (
             <li
-              key={todo.id}
+              key={todo.ID}
               className="flex justify-between items-center p-4 bg-gray-800 border border-gray-700 rounded-xl shadow-sm hover:shadow-md transition"
             >
               <div className="flex items-center">

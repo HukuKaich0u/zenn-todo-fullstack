@@ -1,6 +1,7 @@
 package db
 
 import (
+	"backend/models"
 	"fmt"
 	"log"
 	"os"
@@ -38,6 +39,8 @@ func ConnectDB() {
 		log.Fatalf("データベース接続に失敗: %v\n", err)
 		return
 	}
+
+	db.AutoMigrate(&models.Todo{})
 
 	log.Println("データベース接続に成功")
 

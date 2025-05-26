@@ -1,7 +1,9 @@
 package models
 
+import "gorm.io/gorm"
+
 type Todo struct {
-	ID          uint   `gorm:"primaryKey" json:"id"`
+	gorm.Model
 	Title       string `json:"title,omitempty"`
 	IsCompleted bool   `json:"iscompleted"`
 }
