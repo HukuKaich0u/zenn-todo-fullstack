@@ -12,7 +12,7 @@ func main() {
 	router := gin.Default()
 	db.ConnectDB()
 
-	allowOrigins := []string{"http://localhost:3000"}
+	allowOrigins := []string{"http://localhost:3001"}
 	router.Use(middleware.CorsMiddleware(allowOrigins))
 
 	router.POST("/todos", controllers.CreateTodos)
